@@ -1,24 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+const { TrackingServiceClient } = require('./grpc_autogen_files/tracking_grpc_web_pb');
+const { TrackingRequest, TrackingResponse } = require('./grpc_autogen_files/tracking_pb');
+
+var client = new TrackingServiceClient('http://localhost:8080', null, null);
 
 function App() {
+  function sendGrpcRequest() {
+    const trackingReq = new TrackingRequest();
+    trackingReq.setUser('testing');
+    trackingReq.setEvent('click');
+    trackingReq.setTimestamp(Date.now().toString());
+    trackingReq.setUrl(window.location.href);
+    trackingReq.setStringarrayList(['some', 'metadata', 'goes', 'here', 'in', 'this', 'array']);
+
+    client.track(trackingReq, {}, (err, response) => {
+      console.log('from grpc server we have', err, response);
+    });
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      App here!
+      <button onClick={sendGrpcRequest}>Send Grpc Request</button>
     </div>
   );
 }
