@@ -1,9 +1,9 @@
 import React from 'react';
 
-const { TrackingServiceClient } = require('./grpc_autogen_files/tracking_grpc_web_pb');
-const { TrackingRequest, TrackingResponse } = require('./grpc_autogen_files/tracking_pb');
+const { TrackingClient } = require('./grpc_autogen_files/tracking_grpc_web_pb');
+const { TrackingRequest } = require('./grpc_autogen_files/tracking_pb');
 
-var client = new TrackingServiceClient('http://localhost:8080', null, null);
+const client = new TrackingClient('http://localhost:8080', null, null);
 
 function App() {
   function sendGrpcRequest() {
