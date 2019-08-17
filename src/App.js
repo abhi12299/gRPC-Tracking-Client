@@ -3,6 +3,7 @@ import React from 'react';
 const { TrackingClient } = require('./grpc_autogen_files/tracking_grpc_web_pb');
 const { TrackingRequest } = require('./grpc_autogen_files/tracking_pb');
 
+// point to the envoy proxy's cluster
 const client = new TrackingClient('http://localhost:8080', null, null);
 
 function App() {
