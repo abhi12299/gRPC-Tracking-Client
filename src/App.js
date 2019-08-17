@@ -5,7 +5,7 @@ const webworker = new Worker('worker.js');
 function App() {
   function sendGrpcRequest() {
     webworker.postMessage({
-      user: 'abhishek',
+      user: 'testing',
       event: 'hovering',
       timestamp: Date.now().toString(),
       url: window.location.href,
