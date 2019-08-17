@@ -17,6 +17,8 @@ function App() {
 
     client.track(trackingReq, {}, (err, response) => {
       console.log('from grpc server we have', { err, response });
+      if (err) return;
+      
       // response is a type of TrackingResponse
       console.log('ack:', response.getAcknowleged());
     });
@@ -25,7 +27,10 @@ function App() {
   return (
     <div>
       App here!
+      <br />
       <button onClick={sendGrpcRequest}>Send Grpc Request</button>
+      <br />
+      Open your console to see the grpc server response after you press the button
     </div>
   );
 }
