@@ -15,7 +15,9 @@ function App() {
     trackingReq.setStringarrayList(['some', 'metadata', 'goes', 'here', 'in', 'this', 'array']);
 
     client.track(trackingReq, {}, (err, response) => {
-      console.log('from grpc server we have', err, response);
+      console.log('from grpc server we have', { err, response });
+      // response is a type of TrackingResponse
+      console.log('ack:', response.getAcknowleged());
     });
   }
 
