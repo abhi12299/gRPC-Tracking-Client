@@ -20,7 +20,10 @@ function App() {
   return (
     <div>
       App here!
+      <br />
       <button onClick={sendGrpcRequest}>Send Grpc Request</button>
+      <br />
+      Open your console to see grpc response from server when you press the button
     </div>
   );
 }
