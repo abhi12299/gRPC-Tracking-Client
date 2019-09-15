@@ -2472,7 +2472,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
  */
 
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+
 
 
 const grpc = {};
@@ -2621,7 +2621,6 @@ module.exports = proto.tracking;
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
 
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -2714,7 +2713,8 @@ proto.tracking.TrackingRequest.toObject = function(includeInstance, msg) {
     event: jspb.Message.getFieldWithDefault(msg, 2, ""),
     timestamp: jspb.Message.getFieldWithDefault(msg, 3, ""),
     url: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    stringarrayList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f
+    stringarrayList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f,
+    data: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -2770,6 +2770,10 @@ proto.tracking.TrackingRequest.deserializeBinaryFromReader = function(msg, reade
     case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.addStringarray(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setData(value);
       break;
     default:
       reader.skipField();
@@ -2832,6 +2836,13 @@ proto.tracking.TrackingRequest.serializeBinaryToWriter = function(message, write
   if (f.length > 0) {
     writer.writeRepeatedString(
       5,
+      f
+    );
+  }
+  f = message.getData();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -2927,6 +2938,21 @@ proto.tracking.TrackingRequest.prototype.addStringarray = function(value, opt_in
  */
 proto.tracking.TrackingRequest.prototype.clearStringarrayList = function() {
   this.setStringarrayList([]);
+};
+
+
+/**
+ * optional string data = 6;
+ * @return {string}
+ */
+proto.tracking.TrackingRequest.prototype.getData = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.tracking.TrackingRequest.prototype.setData = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
@@ -3061,26 +3087,31 @@ goog.object.extend(exports, proto.tracking);
 
 },{"google-protobuf":3}],8:[function(require,module,exports){
 /* eslint-disable */
-const { TrackingClient } =  require('./grpc_autogen_files/tracking_grpc_web_pb');
+const { TrackingClient } = require('./grpc_autogen_files/tracking_grpc_web_pb');
 const { TrackingRequest } = require('./grpc_autogen_files/tracking_pb');
 
 // here the url is of the envoy cluster!
 const client = new TrackingClient('http://localhost:8080', null, null);
 
 self.addEventListener('message', e => {
-    const { user, event, timestamp, url, stringArray } = e.data;
+  const { user, event, timestamp, url, stringArray, data } = e.data;
 
-    const trackingReq = new TrackingRequest();
-    trackingReq.setUser(user);
-    trackingReq.setEvent(event);
-    trackingReq.setTimestamp(timestamp);
-    trackingReq.setUrl(url);
-    trackingReq.setStringarrayList(stringArray);
+  const trackingReq = new TrackingRequest();
+  trackingReq.setUser(user);
+  trackingReq.setEvent(event);
+  trackingReq.setTimestamp(timestamp);
+  trackingReq.setUrl(url);
+  trackingReq.setStringarrayList(stringArray);
+  trackingReq.setData(data);
 
-    client.track(trackingReq, {}, (err, response) => {
-      console.log('in web worker, from grpc server we have', {err, response});
-      self.postMessage('ok!');
-    });
+  client.track(trackingReq, {}, (err, response) => {
+    console.log('in web worker, from grpc server we have', { err, response });
+    if (!err) {
+      console.log('There are setters/getters in the response received from the server');
+      console.log('acknowleged key in the tracking request has the getter: response.getAcknowleged() ->', response.getAcknowleged());
+    }
+    self.postMessage('ok!');
+  });
 }, false);
 
 },{"./grpc_autogen_files/tracking_grpc_web_pb":6,"./grpc_autogen_files/tracking_pb":7}]},{},[8]);
